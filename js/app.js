@@ -3,7 +3,8 @@
 // menu
 
 const $menuMobileJs = document.querySelector('.menu-mobile-js'),
-$menuModal = document.querySelector('.menu-modal');
+$menuModal = document.querySelector('.menu-modal'),
+$menuJsSM = document.querySelectorAll('.menu-m a');
 
 
 $menuMobileJs.addEventListener('click', e => {
@@ -23,46 +24,56 @@ $menuMobileJs.addEventListener('click', e => {
     }
 });
 
+$menuJsSM.forEach(item => {
+    item.addEventListener('click', e => {
+        setTimeout(() => {
+            $menuMobileJs.classList.remove('active');
+            $menuModal.classList.remove('active');
+            $menuMobileJs.removeAttribute('active');
+        }, 100);
+    })
+})
+
 
 
 
 jQuery(function($) {
 
     const section = $('.scrollto'),
-          nav = $('.menu-js'),
+          navEr = $('.menu-js'),
           navA = $('.menu-js a'),
-          navHeight = nav.outerHeight(); // получаем высоту навигации 
+          navHeights_it = navEr.outerHeight(); // получаем высоту навигации 
 
     // поворот экрана 
     window.addEventListener('orientationchange', function () {
-        navHeight = nav.outerHeight();
+        navHeights_it = navEr.outerHeight();
     }, false);
 
     $(window).on('scroll', function () {
         const position = $(this).scrollTop();
         navA.removeClass('active');
         section.each(function () {
-            const top = $(this).offset().top - navHeight - 85,
+            const top = $(this).offset().top - navHeights_it - 85,
                   bottom = top + $(this).outerHeight();
 
             if (position >= top && position <= bottom) {
-                nav.find('a').removeClass('active');
+                navEr.find('a').removeClass('active');
 
                 section.removeClass('active');
 
                 $(this).addClass('active');
-                nav.find('a[href="#' + $(this).attr('id') + '"]').addClass('active');
+                navEr.find('a[href="#' + $(this).attr('id') + '"]').addClass('active');
             }  else {
                 
             }
         });
     });
 
-    nav.find('a').on('click', function () {
+    navEr.find('a').on('click', function () {
         const id = $(this).attr('href');
 
         $('html, body').animate({
-            scrollTop: $(id).offset().top - navHeight - 85
+            scrollTop: $(id).offset().top - navHeights_it - 85
         }, 487);
 
         return false;
